@@ -448,29 +448,30 @@ Only follow this step if your etcd is hosted on dedicated nodes (**Option 1**). 
 
 1.  In order for kubeadm to run, you first need to write a configuration file:
 
-<!-- Using indentation instead of code fencing because of https://github.com/russross/blackfriday/issues/239 -->
-      cat >config.yaml <<EOF
-      apiVersion: kubeadm.k8s.io/v1alpha1
-      kind: MasterConfiguration
-      api:
-        advertiseAddress: <virtual-ip>
-        controlPlaneEndpoint: <virtual-ip>
-      etcd:
-        endpoints:
-        - https://<etcd0-ip-address>:2379
-        - https://<etcd1-ip-address>:2379
-        - https://<etcd2-ip-address>:2379
-        caFile: /etc/kubernetes/pki/etcd/ca.pem
-        certFile: /etc/kubernetes/pki/etcd/client.pem
-        keyFile: /etc/kubernetes/pki/etcd/client-key.pem
-      networking:
-        podSubnet: <podCIDR>
-      apiServerCertSANs:
+```
+cat >config.yaml <<EOF
+apiVersion: kubeadm.k8s.io/v1alpha1
+  kind: MasterConfiguration
+    api:
+      advertiseAddress: <virtual-ip>
+      controlPlaneEndpoint: <virtual-ip>
+    etcd:
+      endpoints:
+      - https://<etcd0-ip-address>:2379
+      - https://<etcd1-ip-address>:2379
+      - https://<etcd2-ip-address>:2379
+      caFile: /etc/kubernetes/pki/etcd/ca.pem
+      certFile: /etc/kubernetes/pki/etcd/client.pem
+      keyFile: /etc/kubernetes/pki/etcd/client-key.pem
+    networking:
+      podSubnet: <podCIDR>
+    apiServerCertSANs:
       - <virtual-ip>
       - <private-ip>
-      apiServerExtraArgs:
-        apiserver-count: "3"
-      EOF
+    apiServerExtraArgs:
+      apiserver-count: "3"
+ EOF
+ ```
 
 Ensure that the following placeholders are replaced:
 
